@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Track your Battalion Metals shipment with USPS, UPS, FedEx, or DHL.">
+<title>Track Your Shipment | Battalion Metals</title>
+<style>
+:root{--bg:#0b0d0f;--panel:#151a1c;--gold:#c9a45c;--pale:#ead39a;--muted:#a7adb0;--line:#303638;--white:#f4f1e9}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--white);font:15px/1.6 system-ui,sans-serif}a{color:inherit;text-decoration:none}.top{padding:9px;text-align:center;background:#191c1d;color:var(--pale);font-size:11px;letter-spacing:.16em;text-transform:uppercase}.header{border-bottom:1px solid var(--line)}.wrap{width:min(1060px,92%);margin:auto}.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font:25px Georgia;letter-spacing:.08em}.brand b{color:var(--gold)}.back{font-size:13px;color:var(--pale)}main{min-height:calc(100vh - 180px);display:grid;place-items:center;padding:65px 0;background:radial-gradient(ellipse at 50% 20%,#604a2738,transparent 55%)}.panel{width:min(590px,100%);padding:clamp(24px,5vw,44px);background:var(--panel);border:1px solid var(--line);box-shadow:0 18px 65px #0005}.eyebrow{color:var(--pale);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}.icon{width:54px;height:54px;display:grid;place-items:center;border:1px solid #80683b;border-radius:50%;color:var(--pale);font-size:25px;margin-bottom:24px}h1{font:clamp(36px,6vw,52px)/1.08 Georgia;margin:12px 0 14px}.intro{color:#b9bfbd;margin:0 0 28px}label{display:block;margin:17px 0 7px;font-size:12px;color:#e2dfd5}select,input{width:100%;padding:15px;background:#0b0e0f;border:1px solid #41494a;color:var(--white);font:inherit;border-radius:2px}input::placeholder{color:#78807f}select:focus,input:focus{outline:2px solid var(--gold);outline-offset:2px}.btn{width:100%;margin-top:22px;padding:15px;background:var(--gold);color:#111;border:1px solid var(--gold);font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;cursor:pointer}.btn:hover{background:var(--pale)}.hint,.privacy{font-size:12px;color:var(--muted)}.hint{margin:8px 0 0}.privacy{border-top:1px solid var(--line);padding-top:19px;margin-top:25px}.notice{min-height:20px;color:var(--pale);font-size:12px;margin-top:12px}footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:11px}.foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}@media(max-width:520px){.nav{min-height:66px}.brand{font-size:21px}main{padding:35px 0}.panel{padding:24px 19px}}
+</style>
+</head>
+<body>
+<div class="top">A more considered way to own physical precious metals</div>
+<header class="header"><div class="wrap nav"><a class="brand" href="./"><b>BATTALION</b> METALS</a><a class="back" href="./">← Back to home</a></div></header>
+<main><section class="panel" aria-labelledby="title">
+<div class="icon" aria-hidden="true">↗</div>
+<div class="eyebrow">Shipment updates</div>
+<h1 id="title">Track your shipment.</h1>
+<p class="intro">Enter the tracking number from your shipping confirmation and choose the carrier to view the latest delivery updates.</p>
+<form id="trackingForm">
+<label for="carrier">Shipping carrier</label>
+<select id="carrier" name="carrier" required>
+<option value="usps">USPS — United States Postal Service</option>
+<option value="ups">UPS</option>
+<option value="fedex">FedEx</option>
+<option value="dhl">DHL</option>
+</select>
+<label for="trackingNumber">Tracking number</label>
+<input id="trackingNumber" name="trackingNumber" type="text" autocomplete="off" placeholder="Enter your tracking number" maxlength="80" required>
+<p class="hint">You can find this number in your shipment confirmation email.</p>
+<button class="btn" type="submit">Track shipment</button>
+<p class="notice" id="notice" role="status" aria-live="polite"></p>
+</form>
+<p class="privacy">Your tracking number is sent directly to the carrier you select. Battalion Metals does not store it on this page. Delivery estimates and shipment events are provided by the carrier.</p>
+</section></main>
+<footer><div class="wrap foot"><span>© <span id="year"></span> Battalion Metals</span><a href="./">Battalion Metals home</a></div></footer>
+<script>
+const form=document.getElementById("trackingForm");
+const destinations={
+  usps:number=>"https://tools.usps.com/go/TrackConfirmAction?tLabels="+encodeURIComponent(number),
+  ups:number=>"https://www.ups.com/track?tracknum="+encodeURIComponent(number),
+  fedex:number=>"https://www.fedex.com/fedextrack/?trknbr="+encodeURIComponent(number),
+  dhl:number=>"https://www.dhl.com/us-en/home/tracking.html?tracking-id="+encodeURIComponent(number)
+};
+form.addEventListener("submit",event=>{
+  event.preventDefault();
+  const carrier=document.getElementById("carrier").value;
+  const number=document.getElementById("trackingNumber").value.trim();
+  if(!number){document.getElementById("notice").textContent="Please enter your tracking number.";return;}
+  if(!/^[A-Za-z0-9 -]+$/.test(number)){document.getElementById("notice").textContent="Please check the tracking number and try again.";return;}
+  window.location.assign(destinations[carrier](number.replace(/\s+/g,"")));
+});
+document.getElementById("year").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
