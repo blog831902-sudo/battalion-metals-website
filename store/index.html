@@ -6,4 +6,47 @@
 <article class="card" data-metal="Gold" data-type="All"><img src="https://static.battalionmetals.com/strapi/494fc45e73a4d839f4c39d22706be154c2663035_37714b6570.webp" alt="Gold bullion collection"><div class="body"><div class="eyebrow">Gold · Collection</div><h3>Shop All Gold</h3><p>Explore the gold collection, including coin and bar formats.</p><a class="btn ghost" href="?category=Gold">View gold</a></div></article>
 <article class="card" data-metal="Silver" data-type="Coin"><div class="body"><div class="eyebrow">Silver · Coin</div><h3>Silver Coins</h3><p>Silver coin listings can be added when verified inventory and pricing are available.</p><a class="btn ghost" href="../services/consultation/">Ask about silver</a></div></article>
 <article class="card" data-metal="Silver" data-type="Bar"><div class="body"><div class="eyebrow">Silver · Bar</div><h3>Silver Bars</h3><p>Silver bullion bar listings can be added when verified inventory and pricing are available.</p><a class="btn ghost" href="../services/consultation/">Ask about silver</a></div></article>
-</div></main><script>const p=new URLSearchParams(location.search),metal=p.get('category'),type=p.get('type');document.querySelectorAll('[data-metal]').forEach(el=>{el.hidden=!!metal&&el.dataset.metal!==metal||!!type&&el.dataset.type!==type&&el.dataset.type!=='All'});document.getElementById('categoryLabel').textContent=(metal?(metal+(type?' · '+type+'s':'')):'All metals')+' collection';</script><footer class="footer"><div class="wrap">© <span id="year"></span> Battalion Metals · <a href="../">Home</a> · <a href="../store/">Shop Metals</a><p>Demonstration website. Product prices, availability, business credentials, services, and legal disclosures must be verified before launch. Nothing here is investment, tax, or legal advice. Precious metals involve risk and may lose value.</p></div></footer><script>document.getElementById('year').textContent=new Date().getFullYear()</script></body></html>
+</div></main><script>const p=new URLSearchParams(location.search),metal=p.get('category'),type=p.get('type');document.querySelectorAll('[data-metal]').forEach(el=>{el.hidden=!!metal&&el.dataset.metal!==metal||!!type&&el.dataset.type!==type&&el.dataset.type!=='All'});document.getElementById('categoryLabel').textContent=(metal?(metal+(type?' · '+type+'s':'')):'All metals')+' collection';</script><footer class="footer"><div class="wrap">© <span id="year"></span> Battalion Metals · <a href="../">Home</a> · <a href="../store/">Shop Metals</a><p>Demonstration website. Product prices, availability, business credentials, services, and legal disclosures must be verified before launch. Nothing here is investment, tax, or legal advice. Precious metals involve risk and may lose value.</p></div></footer><script>document.getElementById('year').textContent=new Date().getFullYear()</script><script src="../assets/supabase-config.js"></script>
+<script>
+(async()=>{
+  const cfg=window.BATTALION_SUPABASE;
+  const grid=document.getElementById("products");
+  if(!cfg||!grid)return;
+  const params=new URLSearchParams(location.search);
+  const metal=(params.get("category")||"").toLowerCase();
+  const type=(params.get("type")||"").toLowerCase();
+  const endpoint=cfg.url+"/rest/v1/products?select=id,name,description,metal,product_type,purity,weight_grams,price,currency,image_url,stock_quantity&is_active=eq.true&order=name.asc";
+  try{
+    const response=await fetch(endpoint,{headers:{apikey:cfg.publishableKey}});
+    if(!response.ok)throw new Error("Catalog request failed");
+    const products=await response.json();
+    if(!Array.isArray(products)||products.length===0)return;
+    const filtered=products.filter(p=>(!metal||String(p.metal).toLowerCase()===metal)&&(!type||String(p.product_type||"").toLowerCase()===type));
+    grid.replaceChildren();
+    if(!filtered.length){
+      const message=document.createElement("p");message.className="muted";message.textContent="No active products are listed in this category yet. Contact us for product information.";
+      grid.append(message);return;
+    }
+    const money=(value,currency)=>new Intl.NumberFormat("en-US",{style:"currency",currency:currency||"USD"}).format(Number(value));
+    filtered.forEach(product=>{
+      const card=document.createElement("article");card.className="card";
+      if(product.image_url&&/^https:\/\//i.test(product.image_url)){
+        const img=document.createElement("img");img.src=product.image_url;img.alt=product.name||"Precious metals product";img.loading="lazy";card.append(img);
+      }else{
+        const art=document.createElement("div");art.style.cssText="height:225px;background:radial-gradient(circle,#94713b44,transparent 60%),#171d1f";card.append(art);
+      }
+      const body=document.createElement("div");body.className="body";
+      const tag=document.createElement("div");tag.className="eyebrow";tag.textContent=[product.metal,product.product_type].filter(Boolean).join(" · ");
+      const title=document.createElement("h3");title.textContent=product.name;
+      const description=document.createElement("p");description.textContent=product.description||[product.purity,product.weight_grams?product.weight_grams+" g":""].filter(Boolean).join(" · ")||"Physical precious metals product.";
+      const price=document.createElement("p");price.className="price";price.textContent=Number(product.price)>0?money(product.price,product.currency):"Request quote";
+      const availability=document.createElement("p");availability.textContent=Number(product.stock_quantity)>0?"Available":"Contact us for availability";
+      const link=document.createElement("a");link.className="btn ghost";link.href="../services/consultation/?product="+encodeURIComponent(product.name);link.textContent="Request information";
+      body.append(tag,title,description,price,availability,link);card.append(body);grid.append(card);
+    });
+    document.getElementById("categoryLabel").textContent=(metal?metal.charAt(0).toUpperCase()+metal.slice(1)+(type?" · "+type+"s":""):"All metals")+" collection";
+  }catch(error){
+    console.warn("Using storefront preview products; Supabase catalog could not be loaded.",error);
+  }
+})();
+</script></body></html>
