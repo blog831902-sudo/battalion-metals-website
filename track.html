@@ -17,39 +17,90 @@
 <div class="icon" aria-hidden="true">↗</div>
 <div class="eyebrow">Shipment updates</div>
 <h1 id="title">Track your shipment.</h1>
-<p class="intro">Enter the tracking number from your shipping confirmation and choose the carrier to view the latest delivery updates.</p>
+<p class="intro">Enter the secure tracking access code from your Battalion Metals shipping confirmation to view shipment progress and delivery updates.</p>
 <form id="trackingForm">
-<label for="carrier">Shipping carrier</label>
-<select id="carrier" name="carrier" required>
-<option value="usps">USPS — United States Postal Service</option>
-<option value="ups">UPS</option>
-<option value="fedex">FedEx</option>
-<option value="dhl">DHL</option>
-</select>
-<label for="trackingNumber">Tracking number</label>
-<input id="trackingNumber" name="trackingNumber" type="text" autocomplete="off" placeholder="Enter your tracking number" maxlength="80" required>
-<p class="hint">You can find this number in your shipment confirmation email.</p>
-<button class="btn" type="submit">Track shipment</button>
+<label for="trackingCode">Tracking access code</label>
+<input id="trackingCode" name="trackingCode" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Enter your 32-character access code" minlength="32" maxlength="32" required>
+<p class="hint">Your access code is included in your Battalion Metals shipment confirmation. It is different from the carrier's tracking number.</p>
+<button class="btn" id="trackButton" type="submit">Track shipment</button>
 <p class="notice" id="notice" role="status" aria-live="polite"></p>
+<section id="trackingResult" class="tracking-result" aria-live="polite" hidden>
+  <div class="result-top"><span class="eyebrow">Shipment status</span><strong id="shipmentStatus"></strong></div>
+  <p id="shipmentMeta" class="hint"></p>
+  <div id="shipmentEvents" class="events"></div>
+</section>
 </form>
-<p class="privacy">Your tracking number is sent directly to the carrier you select. Battalion Metals does not store it on this page. Delivery estimates and shipment events are provided by the carrier.</p>
+<p class="privacy">Your access code is checked securely against Battalion Metals shipment records. Only shipment status and tracking-event details are displayed; order addresses and payment information are never shown.</p>
 </section></main>
 <footer><div class="wrap foot"><span>© <span id="year"></span> Battalion Metals</span><a href="./">Battalion Metals home</a></div></footer>
+<script src="assets/supabase-config.js"></script>
+<style>
+.tracking-result{margin-top:24px;padding:20px;border:1px solid #665532;background:#0d1213}
+.result-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.result-top strong{color:var(--pale);font:22px Georgia;text-transform:capitalize}
+#shipmentMeta{margin:10px 0 18px}
+.events{border-top:1px solid var(--line)}
+.event{padding:14px 0;border-bottom:1px solid var(--line)}
+.event strong{display:block;color:var(--white);font-size:13px}
+.event span,.event time{display:block;color:var(--muted);font-size:11px}
+</style>
 <script>
 const form=document.getElementById("trackingForm");
-const destinations={
-  usps:number=>"https://tools.usps.com/go/TrackConfirmAction?tLabels="+encodeURIComponent(number),
-  ups:number=>"https://www.ups.com/track?tracknum="+encodeURIComponent(number),
-  fedex:number=>"https://www.fedex.com/fedextrack/?trknbr="+encodeURIComponent(number),
-  dhl:number=>"https://www.dhl.com/us-en/home/tracking.html?tracking-id="+encodeURIComponent(number)
-};
-form.addEventListener("submit",event=>{
+const notice=document.getElementById("notice");
+const result=document.getElementById("trackingResult");
+const button=document.getElementById("trackButton");
+const statusLabels={label_created:"Label created",in_transit:"In transit",out_for_delivery:"Out for delivery",delivered:"Delivered",exception:"Delivery exception",returned:"Returned"};
+const dateLabel=value=>value?new Date(value).toLocaleString([],{dateStyle:"medium",timeStyle:"short"}):"Not available";
+form.addEventListener("submit",async event=>{
   event.preventDefault();
-  const carrier=document.getElementById("carrier").value;
-  const number=document.getElementById("trackingNumber").value.trim();
-  if(!number){document.getElementById("notice").textContent="Please enter your tracking number.";return;}
-  if(!/^[A-Za-z0-9 -]+$/.test(number)){document.getElementById("notice").textContent="Please check the tracking number and try again.";return;}
-  window.location.assign(destinations[carrier](number.replace(/\s+/g,"")));
+  const token=document.getElementById("trackingCode").value.trim();
+  notice.textContent="";
+  result.hidden=true;
+  if(!/^[a-f0-9]{32}$/i.test(token)){
+    notice.textContent="Please enter the 32-character access code from your shipment confirmation.";
+    return;
+  }
+  button.disabled=true;
+  button.textContent="Checking shipment…";
+  try{
+    const cfg=window.BATTALION_SUPABASE;
+    const response=await fetch(cfg.url+"/functions/v1/track-shipment",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","apikey":cfg.publishableKey},
+      body:JSON.stringify({tracking_token:token})
+    });
+    const payload=await response.json();
+    if(!response.ok) throw new Error(payload.error||"We couldn't retrieve this shipment. Please try again.");
+    const shipment=payload.shipment;
+    document.getElementById("shipmentStatus").textContent=statusLabels[shipment.status]||"Update available";
+    const meta=[];
+    if(shipment.carrier) meta.push("Carrier: "+shipment.carrier.toUpperCase());
+    meta.push("Shipped: "+dateLabel(shipment.shipped_at));
+    if(shipment.estimated_delivery) meta.push("Estimated delivery: "+dateLabel(shipment.estimated_delivery));
+    if(shipment.delivered_at) meta.push("Delivered: "+dateLabel(shipment.delivered_at));
+    document.getElementById("shipmentMeta").textContent=meta.join(" · ");
+    const events=document.getElementById("shipmentEvents");
+    events.replaceChildren();
+    if(shipment.events&&shipment.events.length){
+      shipment.events.forEach(item=>{
+        const row=document.createElement("div");row.className="event";
+        const title=document.createElement("strong");title.textContent=statusLabels[item.status]||item.status||"Shipment update";
+        const desc=document.createElement("span");desc.textContent=item.description||"";
+        const location=document.createElement("span");location.textContent=item.location||"";
+        const time=document.createElement("time");time.textContent=dateLabel(item.event_time);
+        row.append(title,desc,location,time);events.append(row);
+      });
+    }else{
+      const empty=document.createElement("p");empty.className="hint";empty.textContent="No tracking events have been added yet. Please check again later.";events.append(empty);
+    }
+    result.hidden=false;
+    notice.textContent="Shipment information found.";
+  }catch(error){
+    notice.textContent=error.message||"Tracking is temporarily unavailable. Please try again later.";
+  }finally{
+    button.disabled=false;
+    button.textContent="Track shipment";
+  }
 });
 document.getElementById("year").textContent=new Date().getFullYear();
 </script>
