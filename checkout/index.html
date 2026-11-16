@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090b0c"><title>Submit Order Request | Battalion Metals</title><link rel="stylesheet" href="../assets/site.css">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#090b0c;color:#f4f0e7;font:15px/1.65 Arial,sans-serif}.wrap{width:min(1100px,92%);margin:auto}.top{border-bottom:1px solid #59492d;padding:18px 0}.brand{font:22px Georgia,serif;letter-spacing:.1em}.brand b{color:#c6a15b}a{color:#e7cd91;text-decoration:none}.hero{padding:42px 0 25px;background:radial-gradient(ellipse at 80% 20%,#72542b3b,transparent 40%)}.eyebrow{color:#e7cd91;font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:bold}h1,h2{font-family:Georgia,serif;font-weight:500}h1{font-size:clamp(36px,5vw,55px);margin:9px 0}h2{font-size:25px;margin:4px 0 16px}.muted{color:#aeb5b3}.layout{display:grid;grid-template-columns:1fr 360px;gap:20px;padding:15px 0 70px}.panel{background:linear-gradient(155deg,#171d1f,#101516);border:1px solid #59492d;padding:24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:5px;margin:12px 0}.field label{font-size:11px;color:#c8c5bc}.field input,.field textarea{width:100%;background:#0b1011;border:1px solid #4a4639;color:#f4f0e7;padding:12px;font:inherit}.field input:focus,.field textarea:focus{outline:1px solid #c6a15b}.btn{display:inline-block;background:linear-gradient(135deg,#e3c783,#b88e45);color:#17130b;border:1px solid #c6a15b;padding:12px 18px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;cursor:pointer}.btn:disabled{opacity:.5}.items{border-bottom:1px solid #343b39;padding-bottom:14px;margin-bottom:14px}.item{display:flex;justify-content:space-between;gap:10px;padding:9px 0;font-size:12px}.total{display:flex;justify-content:space-between;color:#e7cd91;font:20px Georgia,serif}.notice{padding:13px;border:1px solid #59492d;margin-top:14px;color:#c6ccc7;font-size:12px}.notice.success{border-color:#47745a;color:#b0d7b9}.notice.error{border-color:#8b4b42;color:#f0b3a8}.hidden{display:none!important}.success-box{text-align:center;padding:25px}.success-box h2{color:#e7cd91}.foot{border-top:1px solid #59492d;padding:24px 0;color:#7f8985;font-size:11px}@media(max-width:800px){.layout{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.panel{padding:18px}}
+</style></head><body>
+<header class="top"><div class="wrap"><a class="brand" href="../"><b>BATTALION</b> METALS</a></div></header>
+<main class="wrap"><section class="hero"><div class="eyebrow">Secure customer request</div><h1>Review your order.</h1><p class="muted">Submit your product selection for confirmation. No payment is collected at this stage.</p></section>
+<div id="signedOut" class="panel hidden"><h2>Sign in to continue</h2><p class="muted">Order requests are linked to your customer account so you can review their status later.</p><a class="btn" id="accountLink" href="../account/">Go to my account</a></div>
+<div id="emptyCart" class="panel hidden"><h2>Your bag is empty</h2><p class="muted">Visit the store to add products before submitting an order request.</p><a class="btn" href="../store/">Return to store</a></div>
+<div id="checkoutLayout" class="layout hidden">
+<section class="panel"><div class="eyebrow">Delivery details</div><h2>Where should we contact you about delivery?</h2>
+<form id="orderForm">
+<div class="field"><label for="name">Full name *</label><input id="name" required maxlength="160" autocomplete="name"></div>
+<div class="field"><label for="phone">Phone number</label><input id="phone" maxlength="40" autocomplete="tel"></div>
+<div class="field"><label for="address1">Street address *</label><input id="address1" required maxlength="180" autocomplete="address-line1"></div>
+<div class="field"><label for="address2">Apartment, suite, etc.</label><input id="address2" maxlength="180" autocomplete="address-line2"></div>
+<div class="grid"><div class="field"><label for="city">City *</label><input id="city" required maxlength="100" autocomplete="address-level2"></div><div class="field"><label for="state">State *</label><input id="state" required maxlength="80" autocomplete="address-level1"></div><div class="field"><label for="postal">ZIP code *</label><input id="postal" required maxlength="20" autocomplete="postal-code"></div><div class="field"><label for="country">Country *</label><input id="country" required maxlength="80" value="United States" autocomplete="country-name"></div></div>
+<div class="field"><label for="note">Order notes (optional)</label><textarea id="note" rows="3" maxlength="1000" placeholder="Any details our team should know?"></textarea></div>
+<button class="btn" id="submitOrder" type="submit">Submit order request</button>
+<div class="notice hidden" id="formNotice" role="status"></div>
+</form>
+<div class="notice">This is an order request, not a completed purchase. Our team must confirm final product pricing, availability, shipping charges and taxes, then contact you separately to arrange payment. Your order is not paid or guaranteed until those details are confirmed.</div>
+</section>
+<aside class="panel"><div class="eyebrow">Your selection</div><h2>Order summary</h2><div class="items" id="items"></div><div class="total"><span>Estimated subtotal</span><strong id="subtotal">$0.00</strong></div><p class="muted" style="font-size:11px">Shipping and taxes are not included. Final totals are confirmed by Battalion Metals before payment.</p><a href="../store/">Edit bag</a></aside>
+</div>
+<div id="success" class="panel success-box hidden"><div class="eyebrow">Request received</div><h2>Your request is in our queue.</h2><p id="successMessage" class="muted"></p><p>Keep your order reference for future correspondence.</p><a class="btn" href="../account/">View my account</a> <a href="../store/">Continue shopping</a></div>
+</main><footer class="foot"><div class="wrap">© <span id="year"></span> Battalion Metals · No online payment is collected on this page.</div></footer>
+<script src="../assets/supabase-config.js"></script><script type="module">
+import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/+esm";
+const $=id=>document.getElementById(id),cfg=window.BATTALION_SUPABASE,cartKey="bm-cart-v1";
+let supabase=null,cart=JSON.parse(localStorage.getItem(cartKey)||"[]"),products=[];
+const money=n=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Number(n)||0);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function show(id){$(id).classList.remove("hidden")}
+function hide(id){$(id).classList.add("hidden")}
+function notice(message,type=""){const n=$("formNotice");n.textContent=message;n.className="notice"+(type?" "+type);n.classList.remove("hidden")}
+$("year").textContent=new Date().getFullYear();
+if(cfg)supabase=createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+async function init(){
+ if(!supabase){show("signedOut");return}
+ const {data:{session}}=await supabase.auth.getSession();
+ if(!session){$("accountLink").href="../account/?next="+encodeURIComponent(location.pathname);show("signedOut");return}
+ if(!cart.length){show("emptyCart");return}
+ const ids=[...new Set(cart.map(x=>x.id))];
+ const {data,error}=await supabase.from("products").select("id,name,price,currency,is_active").in("id",ids);
+ if(error||!data){notice("We could not verify your bag. Please return to the store and try again.","error");show("checkoutLayout");$("submitOrder").disabled=true;return}
+ products=data.filter(p=>p.is_active);
+ cart=cart.filter(x=>products.some(p=>p.id===x.id));
+ if(!cart.length){show("emptyCart");return}
+ $("items").innerHTML=cart.map(x=>{const p=products.find(p=>p.id===x.id);return '<div class="item"><span>'+esc(p.name)+' × '+x.quantity+'</span><strong>'+money(Number(p.price)*x.quantity)+'</strong></div>'}).join("");
+ $("subtotal").textContent=money(cart.reduce((sum,x)=>sum+Number(products.find(p=>p.id===x.id).price)*x.quantity,0));
+ const profile=await supabase.from("profiles").select("full_name,phone").eq("id",session.user.id).maybeSingle();
+ $("name").value=profile.data?.full_name||session.user.user_metadata?.full_name||"";
+ $("phone").value=profile.data?.phone||"";
+ show("checkoutLayout");
+}
+$("orderForm").addEventListener("submit",async e=>{
+ e.preventDefault();const btn=$("submitOrder");btn.disabled=true;btn.textContent="Submitting…";hide("formNotice");
+ try{
+  const {data:{session}}=await supabase.auth.getSession();if(!session)throw new Error("Your session expired. Sign in again.");
+  const {data,error}=await supabase.functions.invoke("submit-order-request",{body:{
+   items:cart.map(x=>({product_id:x.id,quantity:x.quantity})),
+   shipping_name:$("name").value,address1:$("address1").value,address2:$("address2").value,
+   city:$("city").value,state:$("state").value,postal_code:$("postal").value,country:$("country").value,
+   phone:$("phone").value,customer_note:$("note").value
+  }});
+  if(error)throw new Error(data?.error||error.message||"Unable to submit request.");
+  if(data?.error)throw new Error(data.error);
+  localStorage.removeItem(cartKey);hide("checkoutLayout");$("successMessage").textContent=data.message+" Your reference is "+data.order_number+".";
+  show("success");
+ }catch(err){notice(err.message||"Unable to submit request. Please try again.","error")}
+ finally{btn.disabled=false;btn.textContent="Submit order request"}
+});
+init().catch(e=>{show("signedOut");notice(e.message,"error")});
+</script></body></html>
