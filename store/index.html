@@ -1,52 +1,154 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Shop Metals | Battalion Metals"><title>Shop Metals | Battalion Metals</title><style>
-:root{--bg:#0b0d0f;--panel:#151a1c;--gold:#c9a45c;--pale:#ead39a;--muted:#a7adb0;--line:#303638;--white:#f4f1e9}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--white);font:15px/1.65 system-ui,sans-serif}a{color:inherit;text-decoration:none}.wrap{width:min(1120px,92%);margin:auto}.top{padding:8px;text-align:center;background:#191c1d;color:var(--pale);font-size:11px;letter-spacing:.15em;text-transform:uppercase}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line)}.brand{font:24px Georgia;letter-spacing:.08em}.brand b{color:var(--gold)}nav{display:flex;gap:24px;font-size:13px;color:#ddd}.btn{display:inline-block;padding:12px 19px;background:var(--gold);color:#111;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--gold)}.ghost{background:transparent;color:var(--pale)}.hero{padding:72px 0;background:radial-gradient(ellipse at 85% 40%,#604a2838,transparent 50%)}.eyebrow{color:var(--pale);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}h1,h2,h3{font-family:Georgia;font-weight:400}h1{font-size:clamp(42px,6vw,68px);line-height:1.04;margin:12px 0}h2{font-size:38px;margin:8px 0 16px}.muted{color:#b9bfbd;max-width:680px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:20px 0 70px}.card{background:var(--panel);border:1px solid var(--line);overflow:hidden}.card img{display:block;width:100%;height:225px;object-fit:contain;background:#171d1f}.card .body{padding:20px}.card h3{font-size:25px;margin:5px 0}.card p{color:var(--muted);font-size:13px}.links{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}.links a{border:1px solid #665532;padding:9px 14px;color:var(--pale);font-size:12px}.panel{padding:28px;background:var(--panel);border:1px solid var(--line);margin:20px 0 60px}.columns{display:grid;grid-template-columns:1fr 1fr;gap:30px}.footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:12px}.footer a{color:var(--pale)}@media(max-width:750px){nav{gap:10px;flex-wrap:wrap;justify-content:flex-end;font-size:11px}.nav{height:auto;min-height:70px}.grid,.columns{grid-template-columns:1fr}.card img{height:200px}}
-</style><meta name="theme-color" content="#090b0c"><link rel="stylesheet" href="../assets/site.css"></head><body><div class="top">A more considered way to own physical precious metals</div><header class="wrap nav"><a class="brand" href="../"><b>BATTALION</b> METALS</a><nav><a href="../store/">Shop Metals</a><a href="../about/">Our Story</a><a href="../services/">Our Services</a><a href="../services/ira/">Precious Metals IRA</a><a href="../services/consultation/">Schedule a Call</a><a href="../track.html">Track Shipment</a></nav></header><main class="wrap"><section class="hero"><div class="eyebrow">The collection</div><h1>Shop Metals</h1><p class="muted">Explore physical precious metals. Select a category to browse gold coins, gold bars, or the full gold collection. Product examples are illustrative; prices and availability are not live.</p><div class="links"><a href="?category=Gold">Gold · Shop All</a><a href="?category=Gold&type=Coin">Gold Coins</a><a href="?category=Gold&type=Bar">Gold Bars</a><a href="?category=Silver">Silver</a><a href="?">All Metals</a></div></section><div class="eyebrow" id="categoryLabel">Featured products</div><div class="grid" id="products">
-<article class="card" data-metal="Gold" data-type="Coin"><img src="https://static.battalionmetals.com/strapi/f334b900c3b212680d14ccf34ab720e6d6be0602_5523af4769.webp" alt="Gold coin product"><div class="body"><div class="eyebrow">Gold · Coin</div><h3>Gold Coins</h3><p>Explore physical gold coin options and review specifications before purchase.</p><a class="btn ghost" href="../services/consultation/">Request information</a></div></article>
-<article class="card" data-metal="Gold" data-type="Bar"><img src="https://static.battalionmetals.com/strapi/c29f0501a3f8d94af2ff9fd96b8b03579d30bc82webp_52619d8e3d.webp" alt="Gold bar product"><div class="body"><div class="eyebrow">Gold · Bar</div><h3>Gold Bars</h3><p>Browse gold bullion bar options and compare weights, purity, and premiums.</p><a class="btn ghost" href="../services/consultation/">Request information</a></div></article>
-<article class="card" data-metal="Gold" data-type="All"><img src="https://static.battalionmetals.com/strapi/494fc45e73a4d839f4c39d22706be154c2663035_37714b6570.webp" alt="Gold bullion collection"><div class="body"><div class="eyebrow">Gold · Collection</div><h3>Shop All Gold</h3><p>Explore the gold collection, including coin and bar formats.</p><a class="btn ghost" href="?category=Gold">View gold</a></div></article>
-<article class="card" data-metal="Silver" data-type="Coin"><div class="body"><div class="eyebrow">Silver · Coin</div><h3>Silver Coins</h3><p>Silver coin listings can be added when verified inventory and pricing are available.</p><a class="btn ghost" href="../services/consultation/">Ask about silver</a></div></article>
-<article class="card" data-metal="Silver" data-type="Bar"><div class="body"><div class="eyebrow">Silver · Bar</div><h3>Silver Bars</h3><p>Silver bullion bar listings can be added when verified inventory and pricing are available.</p><a class="btn ghost" href="../services/consultation/">Ask about silver</a></div></article>
-</div></main><script>const p=new URLSearchParams(location.search),metal=p.get('category'),type=p.get('type');document.querySelectorAll('[data-metal]').forEach(el=>{el.hidden=!!metal&&el.dataset.metal!==metal||!!type&&el.dataset.type!==type&&el.dataset.type!=='All'});document.getElementById('categoryLabel').textContent=(metal?(metal+(type?' · '+type+'s':'')):'All metals')+' collection';</script><footer class="footer"><div class="wrap">© <span id="year"></span> Battalion Metals · <a href="../">Home</a> · <a href="../store/">Shop Metals</a><p>Demonstration website. Product prices, availability, business credentials, services, and legal disclosures must be verified before launch. Nothing here is investment, tax, or legal advice. Precious metals involve risk and may lose value.</p></div></footer><script>document.getElementById('year').textContent=new Date().getFullYear()</script><script src="../assets/supabase-config.js"></script>
-<script>
-(async()=>{
-  const cfg=window.BATTALION_SUPABASE;
-  const grid=document.getElementById("products");
-  if(!cfg||!grid)return;
-  const params=new URLSearchParams(location.search);
-  const metal=(params.get("category")||"").toLowerCase();
-  const type=(params.get("type")||"").toLowerCase();
-  const endpoint=cfg.url+"/rest/v1/products?select=id,name,description,metal,product_type,purity,weight_grams,price,currency,image_url,stock_quantity&is_active=eq.true&order=name.asc";
-  try{
-    const response=await fetch(endpoint,{headers:{apikey:cfg.publishableKey}});
-    if(!response.ok)throw new Error("Catalog request failed");
-    const products=await response.json();
-    if(!Array.isArray(products)||products.length===0)return;
-    const filtered=products.filter(p=>(!metal||String(p.metal).toLowerCase()===metal)&&(!type||String(p.product_type||"").toLowerCase()===type));
-    grid.replaceChildren();
-    if(!filtered.length){
-      const message=document.createElement("p");message.className="muted";message.textContent="No active products are listed in this category yet. Contact us for product information.";
-      grid.append(message);return;
-    }
-    const money=(value,currency)=>new Intl.NumberFormat("en-US",{style:"currency",currency:currency||"USD"}).format(Number(value));
-    filtered.forEach(product=>{
-      const card=document.createElement("article");card.className="card";
-      if(product.image_url&&/^https:\/\//i.test(product.image_url)){
-        const img=document.createElement("img");img.src=product.image_url;img.alt=product.name||"Precious metals product";img.loading="lazy";card.append(img);
-      }else{
-        const art=document.createElement("div");art.style.cssText="height:225px;background:radial-gradient(circle,#94713b44,transparent 60%),#171d1f";card.append(art);
-      }
-      const body=document.createElement("div");body.className="body";
-      const tag=document.createElement("div");tag.className="eyebrow";tag.textContent=[product.metal,product.product_type].filter(Boolean).join(" · ");
-      const title=document.createElement("h3");title.textContent=product.name;
-      const description=document.createElement("p");description.textContent=product.description||[product.purity,product.weight_grams?product.weight_grams+" g":""].filter(Boolean).join(" · ")||"Physical precious metals product.";
-      const price=document.createElement("p");price.className="price";price.textContent=Number(product.price)>0?money(product.price,product.currency):"Request quote";
-      const availability=document.createElement("p");availability.textContent=Number(product.stock_quantity)>0?"Available":"Contact us for availability";
-      const link=document.createElement("a");link.className="btn ghost";link.href="../services/consultation/?product="+encodeURIComponent(product.name);link.textContent="Request information";
-      body.append(tag,title,description,price,availability,link);card.append(body);grid.append(card);
-    });
-    document.getElementById("categoryLabel").textContent=(metal?metal.charAt(0).toUpperCase()+metal.slice(1)+(type?" · "+type+"s":""):"All metals")+" collection";
-  }catch(error){
-    console.warn("Using storefront preview products; Supabase catalog could not be loaded.",error);
-  }
-})();
-</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Explore gold, silver and precious metals at Battalion Metals.">
+<meta name="theme-color" content="#090b0c"><title>Shop Precious Metals | Battalion Metals</title>
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+:root{--gold:#c6a15b;--pale:#e7cd91;--line:rgba(231,205,145,.18);--panel:#141a1b;--muted:#aeb5b3}
+*{box-sizing:border-box}body{margin:0;background:#090b0c;color:#f4f0e7;font:15px/1.65 'DM Sans',Arial,sans-serif}
+a{color:inherit;text-decoration:none}.wrap{width:min(1200px,92%);margin:auto}
+.announcement{background:#111617;border-bottom:1px solid var(--line);color:var(--pale);text-align:center;padding:9px;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.header{position:sticky;top:0;z-index:10;background:#090b0cf2;backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.brand{font:22px 'Playfair Display',Georgia,serif;letter-spacing:.1em}.brand b{color:var(--gold)}
+nav{display:flex;gap:22px;align-items:center;flex-wrap:wrap;font-size:12px;color:#d7d5ce}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.btn{border:1px solid var(--gold);background:linear-gradient(135deg,#e3c783,#b88e45);color:#17130b;padding:12px 17px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:10px;cursor:pointer}
+.btn.outline{background:transparent;color:var(--pale);border-color:#76623c}.btn:disabled{opacity:.45;cursor:not-allowed}
+.hero{padding:72px 0 52px;background:radial-gradient(ellipse at 82% 20%,#72542b3b,transparent 40%),linear-gradient(120deg,#0a0d0e,#151817 70%,#1b160d)}
+.eyebrow{color:var(--pale);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:500;line-height:1.1}
+h1{font-size:clamp(42px,6vw,70px);margin:12px 0}h2{font-size:34px;margin:6px 0 14px}h3{font-size:22px;margin:6px 0}
+.hero p{max-width:670px;color:#b9bfbd}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-block:1px solid var(--line)}
+.benefit{background:#0e1314;padding:18px 5%;display:flex;gap:12px;align-items:center}.benefit strong{display:block;font:16px 'Playfair Display',Georgia,serif}.benefit small{color:var(--muted);font-size:11px}
+.shop{padding:46px 0 80px}.shop-head{display:flex;justify-content:space-between;align-items:end;gap:18px;flex-wrap:wrap;margin-bottom:25px}
+.controls{display:grid;grid-template-columns:minmax(220px,1fr) auto auto;gap:10px;margin:25px 0 18px}
+.control{background:#0c1112;color:#f4f0e7;border:1px solid var(--line);padding:13px 14px;font:inherit;min-width:0}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.filter{border:1px solid #51452e;background:transparent;color:#c9c4b8;padding:8px 13px;font-size:11px;letter-spacing:.07em;cursor:pointer}
+.filter.active{background:#c6a15b18;border-color:var(--gold);color:var(--pale)}
+.results{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;margin:0 0 14px}
+.product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.product{background:linear-gradient(155deg,#171d1f,#101516);border:1px solid var(--line);min-width:0;transition:.22s;overflow:hidden}
+.product:hover{transform:translateY(-4px);border-color:#9b7d43;box-shadow:0 20px 40px #0005}
+.product-image{height:245px;background:radial-gradient(circle at 50% 45%,#b28b4b24,transparent 60%),#151b1c;display:grid;place-items:center;overflow:hidden;position:relative}
+.product-image img{width:100%;height:100%;object-fit:contain;padding:20px;display:block}
+.product-image .placeholder{font:42px 'Playfair Display',Georgia,serif;color:#b99453;border:1px solid #806638;border-radius:50%;width:118px;height:118px;display:grid;place-items:center;box-shadow:inset 0 0 24px #c6a15b22}
+.stock{position:absolute;left:13px;top:13px;background:#0a0d0de8;border:1px solid var(--line);color:var(--pale);font-size:9px;padding:5px 8px;letter-spacing:.1em;text-transform:uppercase}
+.product-body{padding:18px}.product-meta{color:var(--pale);font-size:9px;letter-spacing:.17em;text-transform:uppercase}
+.product h3{font-size:21px;min-height:48px}.description{font-size:12px;color:var(--muted);min-height:42px;margin:8px 0}
+.specs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.specs span{border:1px solid #343b39;padding:4px 7px;color:#b9bfbd;font-size:10px}
+.price{color:var(--pale);font:20px 'Playfair Display',Georgia,serif}.price-note{font-size:10px;color:#7e8985}
+.product-actions{display:flex;gap:8px;margin-top:15px}.product-actions button{flex:1}
+.empty{grid-column:1/-1;text-align:center;padding:55px 20px;border:1px dashed var(--line);color:var(--muted)}
+.note{border:1px solid var(--line);background:#111718;padding:17px;color:var(--muted);font-size:11px;margin-top:28px}
+footer{border-top:1px solid var(--line);background:#080a0b;padding:32px 0;color:#909995;font-size:11px}
+.drawer-backdrop{position:fixed;inset:0;background:#000b;z-index:20;opacity:0;pointer-events:none;transition:.2s}
+.drawer-backdrop.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;z-index:21;right:0;top:0;height:100%;width:min(470px,100%);background:#101617;border-left:1px solid var(--line);transform:translateX(105%);transition:.25s;padding:24px;display:flex;flex-direction:column}
+.drawer.open{transform:translateX(0)}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:16px}
+.drawer-head h2{margin:0}.icon-btn{background:transparent;color:var(--pale);border:1px solid var(--line);padding:8px 11px;cursor:pointer}
+.cart-lines{overflow:auto;flex:1}.cart-line{display:grid;grid-template-columns:1fr auto;gap:10px;padding:17px 0;border-bottom:1px solid var(--line)}
+.cart-line strong{font:17px 'Playfair Display',Georgia,serif}.cart-line small{display:block;color:var(--muted);font-size:11px}
+.qty{display:flex;align-items:center;gap:8px;margin-top:8px}.qty button{background:transparent;color:var(--pale);border:1px solid var(--line);width:25px;height:25px;cursor:pointer}
+.cart-bottom{border-top:1px solid var(--line);padding-top:18px}.subtotal{display:flex;justify-content:space-between;font-size:13px;margin-bottom:13px}.cart-bottom p{font-size:10px;color:var(--muted)}
+.modal{display:none;position:fixed;inset:0;background:#000d;z-index:30;place-items:center;padding:18px}.modal.open{display:grid}
+.modal-card{width:min(720px,100%);max-height:90vh;overflow:auto;background:#121819;border:1px solid #806638;padding:25px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}.modal-image{min-height:260px;background:#171d1f;display:grid;place-items:center}.modal-image img{max-width:100%;max-height:310px;object-fit:contain}
+.modal-close{float:right}.modal-copy{color:var(--muted);font-size:13px}
+@media(max-width:850px){.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nav{padding:14px 0}.nav nav{order:3;width:100%;justify-content:center}.controls{grid-template-columns:1fr 1fr}.controls input{grid-column:1/-1}}
+@media(max-width:560px){.product-grid{grid-template-columns:1fr 1fr;gap:9px}.product-image{height:155px}.product-body{padding:12px}.product h3{font-size:17px;min-height:42px}.description{font-size:10px;min-height:55px}.product-actions{flex-direction:column}.benefits{grid-template-columns:1fr}.benefit{padding:13px 5%}.controls{grid-template-columns:1fr}.controls input{grid-column:auto}.hero{padding:50px 0 40px}.modal-grid{grid-template-columns:1fr}.modal-image{min-height:170px}}
+</style>
+</head>
+<body>
+<div class="announcement">A more considered way to own physical precious metals</div>
+<header class="header"><div class="wrap nav">
+<a class="brand" href="../"><b>BATTALION</b> METALS</a>
+<nav><a href="../">Home</a><a href="./">Shop Metals</a><a href="../about/">Our Story</a><a href="../services/">Our Services</a><a href="../track.html">Track Shipment</a></nav>
+<div class="nav-actions"><a class="btn outline" href="../account/">My Account</a><button class="btn" id="openCart">Bag <span id="cartCount">0</span></button></div>
+</div></header>
+<main>
+<section class="hero"><div class="wrap"><div class="eyebrow">The Battalion collection</div><h1>Precious metals.<br><span style="color:var(--pale)">Considered carefully.</span></h1><p>Explore physical gold and silver with clear product specifications, thoughtful service, and a buying experience designed around informed decisions.</p><div class="hero-actions"><a class="btn" href="#catalog">Explore the collection</a><a class="btn outline" href="../services/consultation/">Speak with our team</a></div></div></section>
+<div class="benefits"><div class="benefit"><span style="color:var(--pale);font-size:22px">◇</span><div><strong>Clear specifications</strong><small>Weight, purity and product type</small></div></div><div class="benefit"><span style="color:var(--pale);font-size:22px">✧</span><div><strong>Personal guidance</strong><small>Questions answered without pressure</small></div></div><div class="benefit"><span style="color:var(--pale);font-size:22px">⌑</span><div><strong>Secure-minded service</strong><small>Understand delivery before ordering</small></div></div></div>
+<section class="shop wrap" id="catalog">
+<div class="shop-head"><div><div class="eyebrow">Browse the collection</div><h2>Shop Metals</h2><p style="color:var(--muted);margin:0">Find a product by metal, format, or weight.</p></div><div class="eyebrow" id="catalogStatus">Connecting to product catalog…</div></div>
+<div class="controls"><input class="control" id="search" type="search" placeholder="Search products, weight, purity…"><select class="control" id="sort"><option value="featured">Sort: Featured</option><option value="name">Name: A–Z</option><option value="price-low">Price: Low to high</option><option value="price-high">Price: High to low</option></select><select class="control" id="metalSelect"><option value="all">All metals</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="platinum">Platinum</option><option value="palladium">Palladium</option></select></div>
+<div class="filters" id="typeFilters"><button class="filter active" data-type="all">All products</button><button class="filter" data-type="coin">Coins</button><button class="filter" data-type="bar">Bars</button><button class="filter" data-type="round">Rounds</button></div>
+<div class="results"><span id="resultCount">Loading products…</span><span>USD · Product prices shown as listed</span></div>
+<div class="product-grid" id="productGrid"><div class="empty">Loading the Battalion Metals collection…</div></div>
+<div class="note">Product prices and availability are subject to confirmation. Spot prices are market references and are not the same as retail product prices. No payment is collected on this demonstration storefront. Checkout will be enabled after a payment processor and the required business settings are configured.</div>
+</section>
+</main>
+<footer><div class="wrap"><div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><a class="brand" href="../"><b>BATTALION</b> METALS</a><span>© <span id="year"></span> Battalion Metals</span><span><a href="../about/">Our Story</a> · <a href="../services/">Services</a> · <a href="../track.html">Track Shipment</a></span></div><p style="max-width:900px;color:#78827f">Demonstration storefront. Product listings, prices, availability, shipping terms, and business details must be verified before publication. Nothing on this site is investment, tax, or legal advice. Precious metals involve risk and may lose value.</p></div></footer>
+<div class="drawer-backdrop" id="backdrop"></div><aside class="drawer" id="cartDrawer" aria-label="Shopping bag" aria-modal="true" role="dialog"><div class="drawer-head"><h2>Your Bag</h2><button class="icon-btn" id="closeCart">Close ✕</button></div><div class="cart-lines" id="cartLines"></div><div class="cart-bottom"><div class="subtotal"><span>Estimated subtotal</span><strong id="cartSubtotal">$0.00</strong></div><p>Final pricing, premiums, shipping, taxes and availability are confirmed before an order is accepted. This bag is saved in this browser only.</p><a class="btn" id="quoteLink" href="../services/consultation/">Request a quote</a></div></aside>
+<div class="modal" id="productModal" role="dialog" aria-modal="true" aria-label="Product details"><div class="modal-card"><button class="icon-btn modal-close" id="closeProduct">Close ✕</button><div id="productDetail"></div></div></div>
+<script src="../assets/supabase-config.js"></script>
+<script type="module">
+import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/+esm";
+const $=id=>document.getElementById(id),cfg=window.BATTALION_SUPABASE;
+let supabase=null,products=[],cart=JSON.parse(localStorage.getItem("bm-cart-v1")||"[]"),activeType="all",activeMetal="all";
+if(cfg)supabase=createClient(cfg.url,cfg.publishableKey);
+const money=(n,c="USD")=>new Intl.NumberFormat("en-US",{style:"currency",currency:c||"USD"}).format(Number(n)||0);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm=s=>String(s||"").trim().toLowerCase();
+function saveCart(){localStorage.setItem("bm-cart-v1",JSON.stringify(cart));renderCart()}
+function productById(id){return products.find(p=>p.id===id)}
+function renderProducts(){
+ const q=norm($("search").value),metal=norm($("metalSelect").value),sort=$("sort").value;
+ let list=products.filter(p=>{
+  const hay=[p.name,p.description,p.metal,p.product_type,p.purity,p.weight_grams].join(" ").toLowerCase();
+  return (!q||hay.includes(q))&&(metal==="all"||norm(p.metal)===metal)&&(activeType==="all"||norm(p.product_type).includes(activeType));
+ });
+ if(sort==="name")list.sort((a,b)=>a.name.localeCompare(b.name));
+ if(sort==="price-low")list.sort((a,b)=>Number(a.price)-Number(b.price));
+ if(sort==="price-high")list.sort((a,b)=>Number(b.price)-Number(a.price));
+ $("resultCount").textContent=list.length+" product"+(list.length===1?"":"s");
+ $("productGrid").innerHTML=list.length?list.map(p=>{
+  const img=p.image_url&&/^https:\/\//i.test(p.image_url)?'<img src="'+esc(p.image_url)+'" alt="'+esc(p.name)+'" loading="lazy">':'<div class="placeholder">'+esc((p.metal||"BM").slice(0,2).toUpperCase())+'</div>';
+  const specs=[p.weight_grams?Number(p.weight_grams).toLocaleString()+" g":null,p.purity||null,p.product_type||null].filter(Boolean);
+  const price=Number(p.price)>0?money(p.price,p.currency):"Request quote";
+  const stock=Number(p.stock_quantity)>0?"In stock":"Availability on request";
+  return '<article class="product"><div class="product-image">'+img+'<span class="stock">'+stock+'</span></div><div class="product-body"><div class="product-meta">'+esc(p.metal)+' · '+esc(p.product_type||"Bullion")+'</div><h3>'+esc(p.name)+'</h3><p class="description">'+esc(p.description||"Physical precious metals. Review the specifications and request current availability.")+'</p><div class="specs">'+specs.map(s=>'<span>'+esc(s)+'</span>').join("")+'</div><div class="price">'+price+'</div><div class="price-note">Retail price · subject to confirmation</div><div class="product-actions"><button class="btn outline" data-details="'+esc(p.id)+'">Details</button><button class="btn" data-add="'+esc(p.id)+'">Add to bag</button></div></div></article>';
+ }).join(""):'<div class="empty"><h3>No products found</h3><p>Try another search or category, or contact us for product availability.</p><button class="btn outline" id="clearFilters">Clear filters</button></div>';
+ $("productGrid").querySelectorAll("[data-add]").forEach(b=>b.addEventListener("click",()=>addToCart(b.dataset.add)));
+ $("productGrid").querySelectorAll("[data-details]").forEach(b=>b.addEventListener("click",()=>showDetails(b.dataset.details)));
+ const clear=$("clearFilters");if(clear)clear.onclick=()=>{$("search").value="";$("metalSelect").value="all";activeType="all";document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x.dataset.type==="all"));renderProducts()};
+}
+function addToCart(id){const p=productById(id);if(!p)return;const line=cart.find(x=>x.id===id);if(line)line.quantity=Math.min(99,line.quantity+1);else cart.push({id,quantity:1});saveCart();$("cartDrawer").classList.add("open");$("backdrop").classList.add("open")}
+function renderCart(){
+ const valid=cart.filter(x=>productById(x.id));cart=valid;
+ const count=cart.reduce((n,x)=>n+x.quantity,0);$("cartCount").textContent=count;
+ let total=0;
+ $("cartLines").innerHTML=cart.length?cart.map(x=>{const p=productById(x.id);const line=Number(p.price||0)*x.quantity;total+=line;return '<div class="cart-line"><div><strong>'+esc(p.name)+'</strong><small>'+money(p.price,p.currency)+' each</small><div class="qty"><button data-dec="'+esc(p.id)+'">−</button><span>'+x.quantity+'</span><button data-inc="'+esc(p.id)+'">+</button></div></div><div style="text-align:right"><strong>'+money(line,p.currency)+'</strong><br><button class="icon-btn" style="margin-top:8px" data-remove="'+esc(p.id)+'">Remove</button></div></div>'}).join(""):'<div class="empty"><h3>Your bag is empty</h3><p>Add a product to begin.</p></div>';
+ $("cartSubtotal").textContent=money(total);
+ $("cartLines").querySelectorAll("[data-inc]").forEach(b=>b.onclick=()=>changeQty(b.dataset.inc,1));
+ $("cartLines").querySelectorAll("[data-dec]").forEach(b=>b.onclick=()=>changeQty(b.dataset.dec,-1));
+ $("cartLines").querySelectorAll("[data-remove]").forEach(b=>b.onclick=()=>{cart=cart.filter(x=>x.id!==b.dataset.remove);saveCart()});
+ const quoteItems=cart.map(x=>{const p=productById(x.id);return p.name+" x "+x.quantity}).join("; ");
+ $("quoteLink").href="../services/consultation/?items="+encodeURIComponent(quoteItems);
+}
+function changeQty(id,delta){const x=cart.find(v=>v.id===id);if(!x)return;x.quantity+=delta;if(x.quantity<1)cart=cart.filter(v=>v.id!==id);else x.quantity=Math.min(99,x.quantity);saveCart()}
+function showDetails(id){const p=productById(id);if(!p)return;const img=p.image_url&&/^https:\/\//i.test(p.image_url)?'<img src="'+esc(p.image_url)+'" alt="'+esc(p.name)+'">':'<div class="placeholder">'+esc((p.metal||"BM").slice(0,2).toUpperCase())+'</div>';$("productDetail").innerHTML='<div class="modal-grid"><div class="modal-image">'+img+'</div><div><div class="eyebrow">'+esc(p.metal)+' · '+esc(p.product_type||"Bullion")+'</div><h2>'+esc(p.name)+'</h2><div class="price">'+(Number(p.price)>0?money(p.price,p.currency):"Request quote")+'</div><p class="modal-copy">'+esc(p.description||"Contact us for more information about this product.")+'</p><div class="specs">'+[p.weight_grams?Number(p.weight_grams).toLocaleString()+" g":null,p.purity||null,p.stock_quantity>0?"In stock":"Availability on request"].filter(Boolean).map(s=>'<span>'+esc(s)+'</span>').join("")+'</div><button class="btn" id="detailAdd">Add to bag</button></div></div>';$("detailAdd").onclick=()=>{addToCart(id);$("productModal").classList.remove("open")};$("productModal").classList.add("open")}
+function openCart(){$("cartDrawer").classList.add("open");$("backdrop").classList.add("open")}
+function closeCart(){$("cartDrawer").classList.remove("open");$("backdrop").classList.remove("open")}
+$("openCart").onclick=openCart;$("closeCart").onclick=closeCart;$("backdrop").onclick=closeCart;$("closeProduct").onclick=()=>$("productModal").classList.remove("open");
+$("productModal").onclick=e=>{if(e.target===$("productModal"))$("productModal").classList.remove("open")};
+$("search").addEventListener("input",renderProducts);$("sort").addEventListener("change",renderProducts);$("metalSelect").addEventListener("change",renderProducts);
+document.querySelectorAll(".filter").forEach(b=>b.onclick=()=>{activeType=b.dataset.type;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));renderProducts()});
+async function loadProducts(){
+ if(!cfg){$("catalogStatus").textContent="Catalog connection unavailable";$("productGrid").innerHTML='<div class="empty">The product catalog is not configured. Please try again later.</div>';return}
+ try{
+  const {data,error}=await supabase.from("products").select("id,name,description,metal,product_type,purity,weight_grams,price,currency,image_url,stock_quantity").eq("is_active",true).order("name");
+  if(error)throw error;products=data||[];
+  $("catalogStatus").textContent="Live catalog · "+products.length+" listed";
+  if(!products.length)$("catalogStatus").textContent="Catalog ready · Products coming soon";
+  renderProducts();renderCart();
+ }catch(e){$("catalogStatus").textContent="Catalog temporarily unavailable";$("productGrid").innerHTML='<div class="empty"><h3>We could not load the catalog</h3><p>Please refresh the page in a moment.</p></div>';console.error(e)}
+}
+$("year").textContent=new Date().getFullYear();renderCart();loadProducts();
+</script>
+</body></html>
