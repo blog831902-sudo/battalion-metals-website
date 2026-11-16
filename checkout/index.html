@@ -47,8 +47,8 @@ async function init(){
  products=data.filter(p=>p.is_active);
  cart=cart.filter(x=>products.some(p=>p.id===x.id));
  if(!cart.length){show("emptyCart");return}
- $("items").innerHTML=cart.map(x=>{const p=products.find(p=>p.id===x.id);return '<div class="item"><span>'+esc(p.name)+' × '+x.quantity+'</span><strong>'+money(Number(p.price)*x.quantity)+'</strong></div>'}).join("");
- $("subtotal").textContent=money(cart.reduce((sum,x)=>sum+Number(products.find(p=>p.id===x.id).price)*x.quantity,0));
+ $("items").innerHTML=cart.map(x=>{const p=products.find(p=>p.id===x.id);return '<div class="item"><span>'+esc(p.name)+' × '+x.quantity+'</span><strong>'+(Number(p.price)>0?money(Number(p.price)*x.quantity):'Quote required')+'</strong></div>'}).join("");
+ $("subtotal").textContent=cart.some(x=>Number(products.find(p=>p.id===x.id)?.price)<=0)?"Quote required":money(cart.reduce((sum,x)=>sum+Number(products.find(p=>p.id===x.id).price)*x.quantity,0));
  const profile=await supabase.from("profiles").select("full_name,phone").eq("id",session.user.id).maybeSingle();
  $("name").value=profile.data?.full_name||session.user.user_metadata?.full_name||"";
  $("phone").value=profile.data?.phone||"";
