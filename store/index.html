@@ -62,6 +62,16 @@ footer{border-top:1px solid var(--line);background:#080a0b;padding:32px 0;color:
 .modal-close{float:right}.modal-copy{color:var(--muted);font-size:13px}
 @media(max-width:850px){.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nav{padding:14px 0}.nav nav{order:3;width:100%;justify-content:center}.controls{grid-template-columns:1fr 1fr}.controls input{grid-column:1/-1}}
 @media(max-width:560px){.product-grid{grid-template-columns:1fr 1fr;gap:9px}.product-image{height:155px}.product-body{padding:12px}.product h3{font-size:17px;min-height:42px}.description{font-size:10px;min-height:55px}.product-actions{flex-direction:column}.benefits{grid-template-columns:1fr}.benefit{padding:13px 5%}.controls{grid-template-columns:1fr}.controls input{grid-column:auto}.hero{padding:50px 0 40px}.modal-grid{grid-template-columns:1fr}.modal-image{min-height:170px}}
+.spot-panel{margin-top:26px;margin-bottom:12px;padding:22px;background:linear-gradient(120deg,#12191a,#211b10);border:1px solid var(--line)}
+.spot-heading{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:17px}
+.spot-heading strong{display:block;font:22px 'Playfair Display',Georgia,serif;color:var(--pale)}
+.spot-heading small{display:block;color:var(--muted);font-size:10px}
+#spotStatus{color:var(--muted);font-size:10px}
+.spot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.spot-grid>div{border-top:1px solid var(--line);padding-top:12px}
+.spot-grid small{display:block;color:var(--muted);font-size:10px}
+.spot-grid strong{display:block;color:var(--pale);font:clamp(18px,2.5vw,25px) 'Playfair Display',Georgia,serif;font-variant-numeric:tabular-nums}
+@media(max-width:650px){.spot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.spot-panel{padding:16px}}
 </style>
 </head>
 <body>
@@ -74,16 +84,25 @@ footer{border-top:1px solid var(--line);background:#080a0b;padding:32px 0;color:
 <main>
 <section class="hero"><div class="wrap"><div class="eyebrow">The Battalion collection</div><h1>Precious metals.<br><span style="color:var(--pale)">Considered carefully.</span></h1><p>Explore physical gold and silver with clear product specifications, thoughtful service, and a buying experience designed around informed decisions.</p><div class="hero-actions"><a class="btn" href="#catalog">Explore the collection</a><a class="btn outline" href="../services/consultation/">Speak with our team</a></div></div></section>
 <div class="benefits"><div class="benefit"><span style="color:var(--pale);font-size:22px">◇</span><div><strong>Clear specifications</strong><small>Weight, purity and product type</small></div></div><div class="benefit"><span style="color:var(--pale);font-size:22px">✧</span><div><strong>Personal guidance</strong><small>Questions answered without pressure</small></div></div><div class="benefit"><span style="color:var(--pale);font-size:22px">⌑</span><div><strong>Secure-minded service</strong><small>Understand delivery before ordering</small></div></div></div>
+<section class="spot-panel wrap" aria-label="Live market spot prices">
+ <div class="spot-heading"><div><div class="eyebrow">Market reference</div><strong>Live metal spot prices</strong><small>USD per troy ounce · Indicative only, not retail product prices</small></div><span id="spotStatus">Loading market data…</span></div>
+ <div class="spot-grid">
+  <div><small>Gold</small><strong id="storeGoldSpot">—</strong><small id="storeGoldTime">Waiting for quote</small></div>
+  <div><small>Silver</small><strong id="storeSilverSpot">—</strong><small id="storeSilverTime">Waiting for quote</small></div>
+  <div><small>Platinum</small><strong id="storePlatinumSpot">—</strong><small id="storePlatinumTime">Waiting for quote</small></div>
+  <div><small>Palladium</small><strong id="storePalladiumSpot">—</strong><small id="storePalladiumTime">Waiting for quote</small></div>
+ </div>
+</section>
 <section class="shop wrap" id="catalog">
 <div class="shop-head"><div><div class="eyebrow">Browse the collection</div><h2>Shop Metals</h2><p style="color:var(--muted);margin:0">Find a product by metal, format, or weight.</p></div><div class="eyebrow" id="catalogStatus">Connecting to product catalog…</div></div>
 <div class="controls"><input class="control" id="search" type="search" placeholder="Search products, weight, purity…"><select class="control" id="sort"><option value="featured">Sort: Featured</option><option value="name">Name: A–Z</option><option value="price-low">Price: Low to high</option><option value="price-high">Price: High to low</option></select><select class="control" id="metalSelect"><option value="all">All metals</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="platinum">Platinum</option><option value="palladium">Palladium</option></select></div>
 <div class="filters" id="typeFilters"><button class="filter active" data-type="all">All products</button><button class="filter" data-type="coin">Coins</button><button class="filter" data-type="bar">Bars</button><button class="filter" data-type="round">Rounds</button></div>
 <div class="results"><span id="resultCount">Loading products…</span><span>USD · Prices shown only when confirmed</span></div>
 <div class="product-grid" id="productGrid"><div class="empty">Loading the Battalion Metals collection…</div></div>
-<div class="note">Product prices and availability are subject to confirmation. Spot prices are market references and are not the same as retail product prices. No payment is collected on this demonstration storefront. Customers can submit an order request without paying online. Final pricing, availability, shipping and payment are confirmed by our team.</div>
+<div class="note">Product prices and availability are subject to confirmation. Spot prices are market references and are not the same as retail product prices. No online payment is collected. Submit an order request and our team will confirm final pricing, availability, shipping and payment instructions before accepting it.</div>
 </section>
 </main>
-<footer><div class="wrap"><div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><a class="brand" href="../"><b>BATTALION</b> METALS</a><span>© <span id="year"></span> Battalion Metals</span><span><a href="../about/">Our Story</a> · <a href="../services/">Services</a> · <a href="../track.html">Track Shipment</a></span></div><p style="max-width:900px;color:#78827f">Demonstration storefront. Product listings, prices, availability, shipping terms, and business details must be verified before publication. Nothing on this site is investment, tax, or legal advice. Precious metals involve risk and may lose value.</p></div></footer>
+<footer><div class="wrap"><div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><a class="brand" href="../"><b>BATTALION</b> METALS</a><span>© <span id="year"></span> Battalion Metals</span><span><a href="../about/">Our Story</a> · <a href="../services/">Services</a> · <a href="../track.html">Track Shipment</a></span></div><p style="max-width:900px;color:#78827f">Spot prices are indicative market references, not retail offers. Product prices, availability, shipping, and payment terms are confirmed before an order is accepted. Nothing on this site is investment, tax, or legal advice. Precious metals involve risk and may lose value.</p></div></footer>
 <div class="drawer-backdrop" id="backdrop"></div><aside class="drawer" id="cartDrawer" aria-label="Shopping bag" aria-modal="true" role="dialog"><div class="drawer-head"><h2>Your Bag</h2><button class="icon-btn" id="closeCart">Close ✕</button></div><div class="cart-lines" id="cartLines"></div><div class="cart-bottom"><div class="subtotal"><span>Estimated subtotal</span><strong id="cartSubtotal">$0.00</strong></div><p>Final pricing, premiums, shipping, taxes and availability are confirmed before an order is accepted. This bag is saved in this browser only.</p><a class="btn" id="checkoutLink" href="../checkout/">Continue to order request</a></div></aside>
 <div class="modal" id="productModal" role="dialog" aria-modal="true" aria-label="Product details"><div class="modal-card"><button class="icon-btn modal-close" id="closeProduct">Close ✕</button><div id="productDetail"></div></div></div>
 <script src="../assets/supabase-config.js"></script>
@@ -95,6 +114,30 @@ if(cfg)supabase=createClient(cfg.url,cfg.publishableKey);
 const money=(n,c="USD")=>new Intl.NumberFormat("en-US",{style:"currency",currency:c||"USD"}).format(Number(n)||0);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const norm=s=>String(s||"").trim().toLowerCase();
+const spotElements={gold:["storeGoldSpot","storeGoldTime"],silver:["storeSilverSpot","storeSilverTime"],platinum:["storePlatinumSpot","storePlatinumTime"],palladium:["storePalladiumSpot","storePalladiumTime"]};
+const spotMoney=new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",minimumFractionDigits:2,maximumFractionDigits:2});
+async function loadSpotPrices(){
+ try{
+  const {data,error}=await supabase.from("metal_prices").select("metal,price_per_troy_ounce,currency,source,captured_at").order("captured_at",{ascending:false}).limit(20);
+  if(error)throw error;
+  const latest={};for(const row of data||[]){if(!latest[row.metal])latest[row.metal]=row;}
+  let fresh=0;
+  for(const [metal,ids] of Object.entries(spotElements)){
+   const row=latest[metal],price=document.getElementById(ids[0]),stamp=document.getElementById(ids[1]);
+   if(!row){price.textContent="Unavailable";stamp.textContent="Waiting for market quote";continue;}
+   const time=new Date(row.captured_at),age=Date.now()-time.getTime();
+   price.textContent=spotMoney.format(Number(row.price_per_troy_ounce));
+   stamp.textContent="Updated "+(Number.isNaN(time.getTime())?"recently":time.toLocaleTimeString([],{hour:"numeric",minute:"2-digit",timeZoneName:"short"}));
+   if(Number.isFinite(age)&&age>=-60000&&age<=10*60*1000)fresh++;
+   else stamp.textContent+=" · delayed";
+  }
+  document.getElementById("spotStatus").textContent=fresh===4?"Live · refreshed every 5 minutes":fresh>0?"Market data partially delayed":"Market data delayed";
+ }catch(error){
+  document.getElementById("spotStatus").textContent="Market data temporarily unavailable";
+  console.warn("Spot prices could not be loaded",error);
+ }
+}
+
 function saveCart(){localStorage.setItem("bm-cart-v1",JSON.stringify(cart));renderCart()}
 function productById(id){return products.find(p=>p.id===id)}
 function renderProducts(){
@@ -148,6 +191,6 @@ async function loadProducts(){
   renderProducts();renderCart();
  }catch(e){$("catalogStatus").textContent="Catalog temporarily unavailable";$("productGrid").innerHTML='<div class="empty"><h3>We could not load the catalog</h3><p>Please refresh the page in a moment.</p></div>';console.error(e)}
 }
-$("year").textContent=new Date().getFullYear();renderCart();loadProducts();
+$("year").textContent=new Date().getFullYear();renderCart();loadProducts();loadSpotPrices();setInterval(loadSpotPrices,5*60*1000);
 </script>
 </body></html>
